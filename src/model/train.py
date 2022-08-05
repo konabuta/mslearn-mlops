@@ -15,7 +15,7 @@ import mlflow
 def main(args):
     # TO DO: enable autologging
     mlflow.autolog()
-    
+
     # read data
     df = get_csvs_df(args.training_data)
 
@@ -54,7 +54,7 @@ def parse_args():
     parser.add_argument("--training_data", dest='training_data',
                         type=str)
     parser.add_argument("--reg_rate", dest='reg_rate',
-                        type=float, default=0.01)
+                        type=float, default=0.02)
 
     # parse args
     args = parser.parse_args()
