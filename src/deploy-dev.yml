@@ -1,6 +1,6 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
 name: blue
-model: diabetes-models-mslearn@latest
+model: azureml:diabetes-models-mslearn@latest
 app_insights_enabled: true
 instance_type: Standard_DS2_v2
 instance_count: 1
