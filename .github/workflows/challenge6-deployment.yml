@@ -16,6 +16,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Configure default azure ml workspace
+        run: az configure --defaults group=${{secrets.GROUP}} workspace=${{secrets.WORKSPACE}} location=${{secrets.LOCATION}}
       - name: Creat Endpoint
         run: |
           az ml online-endpoint create --name hack-dev
@@ -38,6 +40,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Configure default azure ml workspace
+        run: az configure --defaults group=${{secrets.GROUP}} workspace=${{secrets.WORKSPACE}} location=${{secrets.LOCATION}}
       - name: Creat Endpoint
         run: |
           az ml online-endpoint create --name hack-prod
@@ -60,6 +64,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Configure default azure ml workspace
+        run: az configure --defaults group=${{secrets.GROUP}} workspace=${{secrets.WORKSPACE}} location=${{secrets.LOCATION}}
       - name: Endpoints Testing
         run: |
           az ml online-endpoint invoke --name hack-dev --request-file sample_request.json
