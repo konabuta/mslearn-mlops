@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+experimentation/.ipynb_aml_checkpoints/train-classification-model-checkpoint2022-7-11-5-14-43Z.ipynb
+experimentation/.amlignore
