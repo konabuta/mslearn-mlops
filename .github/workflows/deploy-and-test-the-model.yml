@@ -1,0 +1,73 @@
+name: [DEMO] Model deployment using GitHub Environments
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    name: Create endpoint and deployment (development)
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@main
+      - name: Install az ml extension
+        run: az extension add -n ml --version 2.4.1 -y
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Configure default azure ml workspace
+        run: az configure --defaults group=${{secrets.GROUP}} workspace=${{secrets.WORKSPACE}} location=${{secrets.LOCATION}}
+      - name: Creat Endpoint
+        run: |
+          az ml online-endpoint create --name hack-dev
+      - name: Create Deployment
+        run: |
+          az ml online-deployment create --endpoint hack-dev -f deploy-dev.yml --all-traffic
+        working-directory: src
+
+  deploy-prod:
+    name: Create endpoint and deployment (development)
+    runs-on: ubuntu-latest
+    environment: production
+    needs: deploy-dev
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@main
+      - name: Install az ml extension
+        run: az extension add -n ml --version 2.4.1 -y
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Configure default azure ml workspace
+        run: az configure --defaults group=${{secrets.GROUP}} workspace=${{secrets.WORKSPACE}} location=${{secrets.LOCATION}}
+      - name: Creat Endpoint
+        run: |
+          az ml online-endpoint create --name hack-prod
+      - name: Create Deployment
+        run: |
+          az ml online-deployment create --endpoint hack-prod -f deploy-prod.yml --all-traffic
+        working-directory: src
+
+  test-dev:
+    name: Create endpoint and deployment (development)
+    runs-on: ubuntu-latest
+    environment: development
+    needs: deploy-dev
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@main
+      - name: Install az ml extension
+        run: az extension add -n ml --version 2.4.1 -y
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Configure default azure ml workspace
+        run: az configure --defaults group=${{secrets.GROUP}} workspace=${{secrets.WORKSPACE}} location=${{secrets.LOCATION}}
+      - name: Endpoints Testing
+        run: |
+          az ml online-endpoint invoke --name hack-dev --request-file sample_request.json
+        working-directory: src
