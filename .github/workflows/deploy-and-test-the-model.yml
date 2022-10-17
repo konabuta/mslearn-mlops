@@ -1,4 +1,4 @@
-name: DEMO : Model deployment using GitHub Environments
+name: Demo for Model deployment using GitHub Environments
 
 on:
   workflow_dispatch:
