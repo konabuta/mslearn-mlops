@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy-dev:
-    name: Create endpoint and deployment (development)
+    name: dev deployment
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -28,7 +28,7 @@ jobs:
         working-directory: src
 
   deploy-prod:
-    name: Create endpoint and deployment (development)
+    name: production A deployment
     runs-on: ubuntu-latest
     environment: production
     needs: deploy-dev
@@ -52,9 +52,9 @@ jobs:
         working-directory: src
 
   test-dev:
-    name: Create endpoint and deployment (development)
+    name: production B deployment
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
     needs: deploy-dev
     steps:
       - name: Check out repo
